@@ -21,7 +21,7 @@ const LIVE_FETCH_KEYS = new Set([
 ])
 
 const server = new Server(
-  { name: 'odse-mcp', version: '1.0.0' },
+  { name: 'odse-mcp', version: '1.0.1' },
   { capabilities: { tools: {} } }
 )
 
