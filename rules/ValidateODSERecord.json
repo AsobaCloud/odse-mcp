@@ -1,0 +1,32 @@
+{
+  "name": "ValidateODSERecord",
+  "description": "Validate a JSON array of ODS-E records using odse.validate_batch (package semantics).",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "records": {
+        "type": "string",
+        "description": "JSON array of ODS-E record objects"
+      },
+      "level": {
+        "type": "string",
+        "description": "odse validation level (default: schema)"
+      },
+      "timeout": {
+        "type": "integer",
+        "description": "Timeout in ms (max 600000)"
+      }
+    },
+    "required": ["records"]
+  },
+  "execution": {
+    "runtime": "python3",
+    "script": "scripts/validate_odse.py",
+    "args": [
+      "--records", "{{records}}",
+      "--level", "{{level}}"
+    ],
+    "default_timeout": 60000,
+    "max_timeout": 600000
+  }
+}

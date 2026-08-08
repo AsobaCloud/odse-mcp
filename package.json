@@ -1,0 +1,55 @@
+{
+  "name": "@asobacloud/odse-mcp",
+  "version": "1.0.0",
+  "description": "MCP server that converts OEM energy telemetry to ODS-E records and validates them via the published odse Python package.",
+  "keywords": [
+    "mcp",
+    "odse",
+    "ods-e",
+    "energy",
+    "telemetry",
+    "transformer",
+    "model-context-protocol"
+  ],
+  "author": "Asoba <support@asoba.co>",
+  "license": "MIT",
+  "homepage": "https://github.com/AsobaCloud/odse-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsobaCloud/odse-mcp.git"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "odse-mcp": "bin/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "node --watch dist/index.js",
+    "test": "node tests/mcp-server.test.mjs",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist/",
+    "bin/",
+    "rules/",
+    "scripts/",
+    "README.md",
+    "LICENSE"
+  ]
+}

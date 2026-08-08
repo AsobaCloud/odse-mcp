@@ -1,0 +1,46 @@
+{
+  "name": "ConvertToODSE",
+  "description": "Convert raw OEM energy telemetry (CSV/JSON text or file) into ODS-E energy-timeseries records using odse.transformer.transform. Optionally auto-detect the OEM when source is omitted.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "payload": {
+        "type": "string",
+        "description": "Raw telemetry payload text (CSV or JSON)"
+      },
+      "payload_file": {
+        "type": "string",
+        "description": "Path to a telemetry file (relative paths resolve against ODSE_WORKSPACE)"
+      },
+      "source": {
+        "type": "string",
+        "description": "OEM source key (e.g. huawei, enphase). If omitted, auto-detect from payload content."
+      },
+      "asset_id": {
+        "type": "string",
+        "description": "Optional asset id forwarded to odse.transform"
+      },
+      "timezone": {
+        "type": "string",
+        "description": "Optional timezone forwarded to odse.transform (e.g. +02:00)"
+      },
+      "timeout": {
+        "type": "integer",
+        "description": "Timeout in ms (max 600000)"
+      }
+    }
+  },
+  "execution": {
+    "runtime": "python3",
+    "script": "scripts/convert_to_odse.py",
+    "args": [
+      "--payload", "{{payload}}",
+      "--payload-file", "{{payload_file}}",
+      "--source", "{{source}}",
+      "--asset-id", "{{asset_id}}",
+      "--timezone", "{{timezone}}"
+    ],
+    "default_timeout": 120000,
+    "max_timeout": 600000
+  }
+}
