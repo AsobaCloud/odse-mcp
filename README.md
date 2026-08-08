@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/AsobaCloud/odse-mcp/master/docs/asoba-logo.svg" alt="Asoba" width="36" height="36" align="bottom" /> ODS-E Conversion
+# <img src="https://raw.githubusercontent.com/AsobaCloud/odse-mcp/master/docs/odse.svg" alt="ODS-E" width="36" height="36" align="bottom" /> ODS-E Conversion
 
 MCP server for [ODS-E](https://github.com/AsobaCloud/odse) energy telemetry conversion. AI coding/data agents call its tools over the [Model Context Protocol](https://modelcontextprotocol.io/) to convert OEM payloads into ODS-E records and validate them via the published [`odse`](https://pypi.org/project/odse/) Python package.
 
