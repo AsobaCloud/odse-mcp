@@ -77,6 +77,7 @@ async function runTests() {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'odse-mcp-e2e-'))
   fs.copyFileSync(path.join(FIXTURES, 'huawei.csv'), path.join(workspace, 'huawei.csv'))
   fs.copyFileSync(path.join(FIXTURES, 'enphase.json'), path.join(workspace, 'enphase.json'))
+  fs.copyFileSync(path.join(FIXTURES, 'huawei_kpi.csv'), path.join(workspace, 'huawei_kpi.csv'))
 
   await withClient(workspace, async client => {
     let step = 0
@@ -156,6 +157,24 @@ async function runTests() {
     assertOk(fromFile)
     assert.ok(parseJson(fromFile).count >= 1)
     console.log('   ✓ relative payload_file resolved')
+
+    next('ConvertToODSE maps per-phase Huawei KPI columns (odse 0.11.0)')
+    const kpiPayload = fs.readFileSync(path.join(workspace, 'huawei_kpi.csv'), 'utf8')
+    const kpi = await client.callTool({
+      name: 'ConvertToODSE',
+      arguments: { payload: kpiPayload, source: 'huawei' },
+    })
+    assertOk(kpi)
+    const kpiBody = parseJson(kpi)
+    assert.ok(kpiBody.count >= 1)
+    const kpiRec = kpiBody.records[0]
+    // SEP-051: FusionSolar KPI columns map to per-phase + DC + power fields
+    assert.ok(kpiRec.voltage_ac_l1 !== undefined && typeof kpiRec.voltage_ac_l1 === 'number')
+    assert.ok(kpiRec.voltage_ac_l2 !== undefined && typeof kpiRec.voltage_ac_l2 === 'number')
+    assert.ok(kpiRec.voltage_ac_l3 !== undefined && typeof kpiRec.voltage_ac_l3 === 'number')
+    assert.equal(kpiRec.voltage_dc, 580.3)
+    assert.equal(kpiRec.kW, 12.05)
+    console.log('   ✓ a_u/b_u/c_u → voltage_ac_l1/l2/l3, pv1_u → voltage_dc, active_power → kW')
 
     next('ValidateODSERecord accepts conformant array')
     const validRecs = JSON.stringify([
